@@ -4,6 +4,7 @@ from tools import tools, TOOL_MAPPING
 import json
 
 message_list = []
+MODEL = "openai/gpt-oss-120b"
 
 def chat():
     while True:
@@ -18,7 +19,7 @@ def chat():
         ) as client:
             
             response = client.chat.send(
-                model="minimax/minimax-m2.7",
+                model=MODEL,
                 tools=tools,
                 messages=message_list
             )
@@ -40,7 +41,7 @@ def chat():
                         }
                     )
                     response = client.chat.send(
-                        model="minimax/minimax-m2.7",
+                        model=MODEL,
                         tools=tools,
                         messages=message_list
                     )
