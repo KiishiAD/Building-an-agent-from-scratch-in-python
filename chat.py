@@ -3,6 +3,7 @@ import os
 from tools import tools, TOOL_MAPPING
 import json
 import logging
+logging.basicConfig(level=logging.INFO)
 
 message_list = []
 MODEL = "openai/gpt-oss-120b"
@@ -11,7 +12,7 @@ def chat():
     while True:
         user_input = input("User:")
         if user_input.lower() in ["exit", "quit"]:
-            print("Exiting chat.")
+            logging.info("Exiting chat.")
             break
         message_list.append({"role": "user", "content": user_input})
 
@@ -34,7 +35,7 @@ def chat():
                 for tool_call in tool_calls:
                     tool_name = tool_call.function.name
                     tool_args = json.loads(tool_call.function.arguments)
-                    logging.info(f"Calling tool: {tool_name} with arguments: {tool_args}")
+                    logging.info(f"Calling tool {tool_name} with arguments: {tool_args}")
                     tool_response = TOOL_MAPPING[tool_name](**tool_args)
                     message_list.append(
                         {"role": "tool",
@@ -48,7 +49,7 @@ def chat():
                         messages=message_list
                     )
                
-            print("Assistant:", response.choices[0].message.content)    
+            logging.info(f"Assistant: {response.choices[0].message.content}")
 
 
     return  "Session ended"
